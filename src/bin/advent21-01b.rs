@@ -3,7 +3,7 @@ use std::io::{self, BufRead};
 use std::path::Path;
 
 fn main() {
-    if let Ok(lines) = read_lines("inputs/input1-1.txt"){
+    if let Ok(lines) = read_lines("inputs/input1-1.txt") {
         let mut num_z = isize::MAX;
         let mut num_zz = isize::MAX;
         let mut num_zzz = isize::MAX;
@@ -24,7 +24,10 @@ fn main() {
     }
 }
 
-fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>> where P: AsRef<Path>, {
+fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
+where
+    P: AsRef<Path>,
+{
     let file = File::open(filename)?;
     Ok(io::BufReader::new(file).lines())
 }

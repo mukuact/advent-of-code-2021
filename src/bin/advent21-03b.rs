@@ -2,7 +2,16 @@ use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::Path;
 
-fn get_life_support_rating<F>(comp: F, v: &Vec<usize>, first: usize, last: usize, i: u32) -> Option<usize> where F: Fn(usize, usize) -> bool {
+fn get_life_support_rating<F>(
+    comp: F,
+    v: &Vec<usize>,
+    first: usize,
+    last: usize,
+    i: u32,
+) -> Option<usize>
+where
+    F: Fn(usize, usize) -> bool,
+{
     let middle = first + 2usize.pow(i);
     let zero = &v[first..middle];
     let one = &v[middle..last];
@@ -24,13 +33,13 @@ fn get_life_support_rating<F>(comp: F, v: &Vec<usize>, first: usize, last: usize
         if i == 0 {
             get_life_support_rating(comp, v, first, middle, 0)
         } else {
-            get_life_support_rating(comp, v, first, middle, i-1)
+            get_life_support_rating(comp, v, first, middle, i - 1)
         }
     } else {
         if i == 0 {
             get_life_support_rating(comp, v, middle, last, 0)
         } else {
-            get_life_support_rating(comp, v, middle, last, i-1)
+            get_life_support_rating(comp, v, middle, last, i - 1)
         }
     }
 }
@@ -46,15 +55,29 @@ fn main() {
         counter[intval] += 1;
     }
 
-    let co2 = get_life_support_rating(|x, y| x > y, &counter, 0, counter.len(), (len-1).try_into().unwrap());
-    let oxygen = get_life_support_rating(|x, y| x <= y, &counter, 0, counter.len(), (len-1).try_into().unwrap());
+    let co2 = get_life_support_rating(
+        |x, y| x > y,
+        &counter,
+        0,
+        counter.len(),
+        (len - 1).try_into().unwrap(),
+    );
+    let oxygen = get_life_support_rating(
+        |x, y| x <= y,
+        &counter,
+        0,
+        counter.len(),
+        (len - 1).try_into().unwrap(),
+    );
     println!("{}", oxygen.unwrap());
     println!("{}", co2.unwrap());
     println!("answer: {}", oxygen.unwrap() * co2.unwrap());
 }
 
-
-fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>> where P: AsRef<Path>, {
+fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
+where
+    P: AsRef<Path>,
+{
     let file = File::open(filename)?;
     Ok(io::BufReader::new(file).lines())
 }

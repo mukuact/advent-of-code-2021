@@ -14,7 +14,7 @@ fn main() {
     }
 }
 
-fn count_incrased(lines: io::Lines<io::BufReader<File>>) -> Result<isize, io::Error>  {
+fn count_incrased(lines: io::Lines<io::BufReader<File>>) -> Result<isize, io::Error> {
     let mut prev_num = isize::MAX;
     let mut count = 0;
     for line in lines {
@@ -30,7 +30,10 @@ fn count_incrased(lines: io::Lines<io::BufReader<File>>) -> Result<isize, io::Er
     Ok(count)
 }
 
-fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>> where P: AsRef<Path>, {
+fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
+where
+    P: AsRef<Path>,
+{
     let file = File::open(filename)?;
     Ok(io::BufReader::new(file).lines())
 }

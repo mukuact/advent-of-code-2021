@@ -3,7 +3,7 @@ use std::io::{self, BufRead};
 use std::path::Path;
 use std::vec::Vec;
 
-fn main(){
+fn main() {
     let file = read_lines("inputs/input3.txt").unwrap();
     let mut iter = file.peekable();
     let len = iter.peek().unwrap().as_ref().unwrap().chars().count();
@@ -28,10 +28,13 @@ fn main(){
     let epsilon = 2i64.pow(len.try_into().unwrap()) - 1 - gamma;
     println!("{:b}", gamma);
     println!("{:b}", epsilon);
-    println!("{}", gamma*epsilon);
+    println!("{}", gamma * epsilon);
 }
 
-fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>> where P: AsRef<Path>, {
+fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
+where
+    P: AsRef<Path>,
+{
     let file = File::open(filename)?;
     Ok(io::BufReader::new(file).lines())
 }
