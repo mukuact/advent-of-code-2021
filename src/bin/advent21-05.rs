@@ -1,8 +1,8 @@
+use std::cmp::{max, min};
+use std::collections::HashMap;
 use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::Path;
-use std::collections::HashMap;
-use std::cmp::{min, max};
 
 #[derive(Debug)]
 struct Segment {
@@ -56,22 +56,22 @@ fn make_diagmap(segs: &Vec<Segment>) -> HashMap<(isize, isize), isize> {
             let right = max(s.x1, s.x2);
             if left == s.x1 {
                 if s.y1 < s.y2 {
-                    for i in 0..=(right-left) {
-                        *ret.entry((left+i, s.y1+i)).or_insert(0) += 1;
+                    for i in 0..=(right - left) {
+                        *ret.entry((left + i, s.y1 + i)).or_insert(0) += 1;
                     }
                 } else if s.y1 > s.y2 {
-                    for i in 0..=(right-left) {
-                        *ret.entry((left+i, s.y1-i)).or_insert(0) += 1;
+                    for i in 0..=(right - left) {
+                        *ret.entry((left + i, s.y1 - i)).or_insert(0) += 1;
                     }
                 }
             } else {
                 if s.y1 < s.y2 {
-                    for i in 0..=(right-left) {
-                        *ret.entry((left+i, s.y2-i)).or_insert(0) += 1;
+                    for i in 0..=(right - left) {
+                        *ret.entry((left + i, s.y2 - i)).or_insert(0) += 1;
                     }
                 } else if s.y1 > s.y2 {
-                    for i in 0..=(right-left) {
-                        *ret.entry((left+i, s.y2+i)).or_insert(0) += 1;
+                    for i in 0..=(right - left) {
+                        *ret.entry((left + i, s.y2 + i)).or_insert(0) += 1;
                     }
                 }
             }
@@ -92,11 +92,17 @@ fn main() {
         })
         .collect();
     let map = make_map(&segments);
-    let n_overlap = map.iter().filter_map(|(_, v)| if *v > 1 {Some(v)} else {None}).count();
+    let n_overlap = map
+        .iter()
+        .filter_map(|(_, v)| if *v > 1 { Some(v) } else { None })
+        .count();
     println!("{}", n_overlap);
 
     let diagmap = make_diagmap(&segments);
-    let n_overlap2 = diagmap.iter().filter_map(|(_, v)| if *v > 1 {Some(v)} else {None}).count();
+    let n_overlap2 = diagmap
+        .iter()
+        .filter_map(|(_, v)| if *v > 1 { Some(v) } else { None })
+        .count();
     println!("{}", n_overlap2);
 }
 
